@@ -1,13 +1,11 @@
-// controllers/reports.controller.js
 import fs from 'fs';
 import path from 'path';
 import ReportsService from '../services/reports.service.js';
 
 class ReportsController {
   createReport = async (req, reply) => {
-    const data = await req.file();// { filename, file, ... }
-    const body = req.body; // campos normales
-    // mueve el stream a disco
+    const data = await req.file();
+    const body = req.body; 
     const target = path.join(__dirname, '..', 'reportes', data.filename);
     await pump(data.file, fs.createWriteStream(target));
     await ReportsService.createReport(body, { path: target });
